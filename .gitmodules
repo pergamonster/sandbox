@@ -1,0 +1,3 @@
+[submodule "C#/amps-client-excel"]
+	path = "C#/amps-client-excel"
+	url = https://github.com/60East/amps-client-excel.git
