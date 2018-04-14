@@ -3,7 +3,6 @@
     "startup_app": {
         "name": "Demo",
         "description": "Demo",
-        //todo add back url
         "icon": "http://openfin.github.io/openfin-lightstreamer-demo/build/images/favicon.ico",
         "uuid": "Demo",
         "autoShow": true,
