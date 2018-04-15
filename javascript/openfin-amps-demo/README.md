@@ -1,0 +1,1 @@
+//"postinstall": "cd node_modules/BitFlux && npm i && grunt build:module",

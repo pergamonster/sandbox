@@ -7,6 +7,6 @@ var openfinLauncher = require('openfin-launcher'),
 gulp.task('openfin', function() {
   openfinLauncher.launchOpenFin({
       //configPath: 'file:/' + path.resolve('app.json')
-      configPath: 'C:/Users/Per/Source/Repos/sandbox/javascript/openfin-amps-demo/app.json'
+      configPath: 'C:/Users/Per/Source/Repos/sandbox/javascript/openfin-amps-demo/openfin-config/app.dev.json'
   });
 });

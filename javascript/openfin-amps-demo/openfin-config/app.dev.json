@@ -1,0 +1,27 @@
+{
+    "devtools_port": 9090,
+    "startup_app": {
+        "name": "Prism Development",
+        "uuid": "PrismDev",
+        "maxWidth": 600,
+        "maxHeight": 200,
+        "defaultWidth": 400,
+        "defaultHeight": 200,
+        "frame": false,
+        "showTaskbarIcon": false,
+        "url": "http://localhost:5000/parent.html",
+        "autoShow" : true,
+        "applicationIcon": "http://localhost:5000/favicon.ico"
+    },
+    "runtime": {
+        "arguments": "--enable-aggressive-domstorage-flushing",
+        "version": "5.44.12.27"
+    },
+    "shortcut": {
+        "company": "",
+        "description": "OpenFin app",
+        "name": "PrismDev",
+        "icon": "http://localhost:5000/favicon.ico"
+    },
+    "splashScreenImage": "http://localhost:5000/splashscreen.png"
+}
