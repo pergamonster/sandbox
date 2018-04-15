@@ -10,13 +10,3 @@ import { connect } from 'react-redux';
 //import noFavourites from '../assets/png/no_favourites.png';
 
 //import windowStateShape from '../propTypeShapes/windowState';
-console.log("doing sth");
-class App extends React.Component {
-
-  render() {
-    return <h1>Hello, {this.props.name}</h1>;
-  }
-}
-
-
-export default App;

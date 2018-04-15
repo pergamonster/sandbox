@@ -1,4 +1,4 @@
-/*import { unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import {
     minimize,
     maximize,
@@ -66,4 +66,4 @@ class WindowStateService {
     }
 }
 
-export default WindowStateService;*/
+export default WindowStateService;

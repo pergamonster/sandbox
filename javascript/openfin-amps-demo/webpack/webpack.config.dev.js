@@ -24,7 +24,7 @@ config.plugins.push(
         'process.env.NODE_ENV': '"development"'
     }),
     new CopyWebpackPlugin([
-        { from: 'src/static' },
+        { from: 'src/javascript/static' },
         { from: 'openfin-config/app.dev.json', to: './app.json' }
     ])
 );

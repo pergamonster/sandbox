@@ -21,7 +21,7 @@ config.plugins.push(
         }
     }),
     new CopyWebpackPlugin([
-        { from: 'src/static' },
+        { from: 'src/javascript/static' },
         { from: 'openfin-config/app.prod.json', to: './app.json' }
     ])
 );

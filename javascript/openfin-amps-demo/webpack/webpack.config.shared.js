@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const path = require('path');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 module.exports = {
     entry: {
@@ -11,10 +13,23 @@ module.exports = {
     module: {
         rules: [
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', query: {presets:['es2015', 'react']}},
-            { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
-            { test: /\.css$/, loader: 'style-loader!css-loader' },
+            { test: /\.svg$/, use: [ {loader: 'svg-sprite-loader'} ] },
+            { test: /\.less$/, 
+                use: [
+                 { loader: 'style-loader' },
+                 { loader: 'css-loader' },
+                 { loader: 'less-loader', options: {paths: [path.resolve(__dirname, "node_modules")]} }
+                 
+                 ]
+            },
+            { test: /\.css$/, 
+                use: [
+                 { loader: 'style-loader' },
+                 { loader: 'css-loader'} 
+                
+                 ]
+            },
             { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' },
-            { test: /\.svg$/, loader: 'file-loader' },
             { test: /\.eot$/, loader: 'file-loader' },
             { test: /\.ttf$/, loader: 'file-loader' },
             { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' },
@@ -25,7 +40,12 @@ module.exports = {
         extensions: ['*', '.js']
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.optimize.OccurrenceOrderPlugin()
+        new webpack.ProvidePlugin({
+              $: "jquery",
+              jQuery: "jquery"
+            }),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new SpriteLoaderPlugin()
+
     ]
 };
