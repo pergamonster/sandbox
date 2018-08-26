@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<script src="https://unpkg.com/d3@4.6.0"></script>
+<script src="https://unpkg.com/d3fc@14.0.15"></script>
+
+<meta charset="utf-8">
+<style>
+body {
+  font: 18px sans-serif;
+}
+
+.area {
+  fill: #9cf;
+  fill-opacity: 0.5;
+}
+
+.line {
+  stroke: #06c;
+}
+.stream_chart {
+  height: 480px;
+}
+</style>
+
+<div id='streaming-chart' class='stream_chart'></div>
+
+<script>
+// create some test data
+const stream = fc.randomFinancial()
+  .stream();
+const data = stream.take(110);
+
+function renderChart() {
+  // add a new datapoint and remove an old one
+  data.push(stream.next());
+  data.shift();
+
+  const container = d3.select('#streaming-chart');
+
+  // Create and apply the bollinger algorithm
+  const bollingerAlgorithm = fc.indicatorBollingerBands()
+    .value(d => d.close);
+
+  const bollingerData = bollingerAlgorithm(data);
+  const mergedData = data.map((d, i) => 
+    Object.assign({}, d, {
+      bollinger: bollingerData[i]
+    })
+  );
+
+  // Offset the range to include the full bar for the latest value
+  const durationDay = 864e5;
+  const xTicks = 10;
+  const xExtent = fc.extentDate()
+    .accessors([d => d.date])
+    .padUnit('domain')
+    .pad([durationDay * -bollingerAlgorithm.period()(mergedData), durationDay]);
+
+  // ensure y extent includes the bollinger bands
+  const yExtent = fc.extentLinear()
+    .accessors([d => d.high, d => d.bollinger.upper,
+                d => d.low, d => d.bollinger.lower]);
+
+  // create a chart
+  const chart = fc.chartSvgCartesian(
+      d3.scaleTime(),
+      d3.scaleLinear()
+    )
+    .xDomain(xExtent(mergedData))
+    .xTicks(xTicks)
+    .yDomain(yExtent(mergedData))
+    .chartLabel('Streaming Candlestick');
+
+  // Create the gridlines and series
+  const gridlines = fc.annotationSvgGridline().xTicks(xTicks);
+  const candlestick = fc.seriesSvgCandlestick();
+
+  const area = fc.seriesSvgArea()
+    .crossValue(d => d.date)
+    .mainValue(d => d.bollinger.upper)
+    .baseValue(d => d.bollinger.lower);
+
+  const upperLine = fc.seriesSvgLine()
+    .crossValue(d => d.date)
+    .mainValue(d => d.bollinger.upper);
+
+  const averageLine = fc.seriesSvgLine()
+    .crossValue(d => d.date)
+    .mainValue(d => d.bollinger.average);
+
+  const lowerLine = fc.seriesSvgLine()
+    .crossValue(d => d.date)
+    .mainValue(d => d.bollinger.lower);
+
+  const multi = fc.seriesSvgMulti()
+    .series([gridlines, area, upperLine, lowerLine, averageLine, candlestick]);
+
+  chart.plotArea(multi);
+
+  container
+    .style('margin-left', '20px')
+    .datum(mergedData)
+    .call(chart);
+}
+
+// re-render the chart every 200ms
+renderChart();
+
+if (window.intervalId) {
+  window.clearInterval(window.intervalId);
+}
+
+window.intervalId = setInterval(renderChart, 200);
+</script>
