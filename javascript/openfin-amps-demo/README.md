@@ -1,5 +1,6 @@
 //"postinstall": "cd node_modules/BitFlux && npm i && grunt build:module",
-
+{ test: /\.json$/, use: ['json-loader'] }
+"postinstall": "cd node_modules/BitFlux && npm i && grunt build:module",	
 "postinstall": "cd node_modules/BitFlux && npm i && grunt build:module",
 @import "../../components/version/version.less";
 

@@ -1,15 +1,15 @@
-var gulp = require('gulp');
-var browserSync = require('browser-sync').create();
+const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
 
-gulp.task('browser-sync', function(){
+gulp.task('browser-sync', () => {
 
     browserSync.init({
         server: {
-            baseDir: "./"
+            baseDir: './'
         }
     });
-    gulp.watch(["./*.html","./*.css"]).on('change', browserSync.reload);
-})
+    gulp.watch(['./*.html', './*.css']).on('change', browserSync.reload);
+});
 
 /*
   gulpfile.js
@@ -24,7 +24,7 @@ gulp.task('browser-sync', function(){
   when you run `gulp`.
 */
 
-var requireDir = require('require-dir');
+const requireDir = require('require-dir');
 
 // Require all tasks in gulp/tasks, including subfolders
 requireDir('./gulp/tasks', { recurse: true });
