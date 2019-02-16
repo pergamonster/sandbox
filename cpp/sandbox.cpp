@@ -18,6 +18,7 @@
 #include <boost/weak_ptr.hpp>
 #include <thread>
 #include <functional>
+#include <random>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -30,6 +31,7 @@ using std::cout;
 using std::cerr;
 using std::string;
 using std::vector;
+using namespace std::placeholders;
 
 
 void reset(boost::shared_ptr<int> &sh)
@@ -63,7 +65,15 @@ std::ifstream getFile(const string& filename) {
     }
     return file;
 }
-
+void coolBind() {
+    // common use case: binding a RNG with a distribution
+    std::default_random_engine e;
+    std::uniform_int_distribution<> d(0, 10);
+    auto rnd = std::bind(d, e); // a copy of e is stored in rnd
+    for (int n = 0; n < 10; ++n)
+        std::cout << rnd() << ' ';
+    std::cout << '\n';
+}
 void readNLines(const string& filename, const int& N) {
     
     int lines = 0;
@@ -109,5 +119,5 @@ int main(const int argc, const char **argv)
     }
     readNLines(s, 2);
     file.close();
-    
+    coolBind();
 }
