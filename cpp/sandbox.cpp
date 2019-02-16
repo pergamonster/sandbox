@@ -23,17 +23,25 @@
 #include <fstream>
 #include <vector>
 #include <valarray>
+#include <tuple>
 #include <string>
 #include <cstdlib>
+#include <cmath>
 
 using std::endl;
 using std::cin;
 using std::cout;
 using std::cerr;
+using std::max;
+using std::abs;
+using std::tie;
 using std::string;
 using std::vector;
 using namespace std::placeholders;
 
+std::tuple<int, string> multiRet(bool flag) {
+    return std::make_tuple( 1,"test" );
+}
 
 void reset(boost::shared_ptr<int> &sh)
 {
@@ -97,7 +105,6 @@ void readNLines(const string& filename, const int& N) {
         cout << output[(start + i) % N] << endl;
     }
 }
-
 bool isAnagram(char* s1, char* s2) {
     std::valarray<int> count(255);
     int i;
@@ -135,4 +142,6 @@ int main(const int argc, const char **argv)
     file.close();
     coolBind();
     cout << isAnagram("goats", "togggga")<<endl;
+    int num; string sth;
+    tie(num, sth) = multiRet(true);
 }
