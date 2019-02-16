@@ -22,6 +22,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <valarray>
 #include <string>
 #include <cstdlib>
 
@@ -97,6 +98,19 @@ void readNLines(const string& filename, const int& N) {
     }
 }
 
+bool isAnagram(char* s1, char* s2) {
+    std::valarray<int> count(255);
+    int i;
+
+    for (i = 0; s1[i] && s2[i]; i++) {
+        count[s1[i]]++;
+        count[s2[i]]--;
+    }
+
+    if (s1[i] || s2[i]) return false;
+    return !count.sum();
+}
+
 int main(const int argc, const char **argv)
 {
     boost::shared_ptr<int> sh{ new int{ 99 } };
@@ -120,4 +134,5 @@ int main(const int argc, const char **argv)
     readNLines(s, 2);
     file.close();
     coolBind();
+    cout << isAnagram("goats", "togggga")<<endl;
 }
