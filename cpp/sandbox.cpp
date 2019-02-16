@@ -1,4 +1,4 @@
-﻿//#include <boost/scoped_ptr.hpp>
+//#include <boost/scoped_ptr.hpp>
 //#include <iostream>
 //
 //int main()
@@ -19,6 +19,18 @@
 #include <thread>
 #include <functional>
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <cstdlib>
+
+using std::endl;
+using std::cin;
+using std::cout;
+using std::cerr;
+using std::string;
+using std::vector;
+
 
 void reset(boost::shared_ptr<int> &sh)
 {
@@ -39,7 +51,43 @@ auto func0()
 
 static_assert(std::is_same<decltype(func0()), int>(), "");
 
-int main()
+std::ifstream getFile(const string& filename) {
+    std::ifstream file;
+    file.open(filename);
+    
+    if (!file.is_open()) {
+        cerr << "Error opening file: "
+             << filename
+             << ".  Aborting..."
+             << endl;
+    }
+    return file;
+}
+
+void readNLines(const string& filename, const int& N) {
+    
+    int lines = 0;
+    std::unique_ptr<string[]> output(new string[N]);
+    auto file = getFile(filename);
+    while (file.good()) {
+        getline(file, output[lines % N]);
+        ++lines;
+    }
+    int start, count;
+    if (lines < N) {
+        start = 0;
+        count = lines;
+    }
+    else {
+        start = lines % N;
+        count = N;
+    }
+    for (int i = 0; i < count; ++i) {
+        cout << output[(start + i) % N] << endl;
+    }
+}
+
+int main(const int argc, const char **argv)
 {
     boost::shared_ptr<int> sh{ new int{ 99 } };
     boost::weak_ptr<int> w{ sh };
@@ -47,4 +95,19 @@ int main()
     std::thread t2{ print, std::ref(w) };
     t1.join();
     t2.join();
+    const string s = "input.txt";
+    string line;
+    int lineCount = 0;
+    auto file = getFile(s);
+    
+    while (file.good()) {
+        std::getline(file, line);
+        cout << ++lineCount
+            << ": "
+            << line
+            << endl;
+    }
+    readNLines(s, 2);
+    file.close();
+    
 }
