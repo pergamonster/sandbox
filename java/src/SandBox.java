@@ -66,6 +66,13 @@ public class SandBox {
                 .collect(joining(", ")));
     }
 
+    public static void PrintMultipleStrings(String... strings) {
+        for( String s : strings ) {
+            System.out.println(s);
+        }
+    }
+
+
     public static void main(String[] args) {
         System.out.println(args[0]
                 .chars()
