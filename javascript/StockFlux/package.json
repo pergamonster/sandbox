@@ -79,7 +79,7 @@
   "dependencies": {
     "BitFlux": "github:scottlogic/BitFlux#1.7.0",
     "babel-polyfill": "^6.26.0",
-    "bootstrap": "^3.3.6",
+    "bootstrap": "^3.4.1",
     "classnames": "^2.2.3",
     "d3fc": "^13.1.1",
     "d3fc-financial-feed": "^3.0.0",
